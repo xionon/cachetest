@@ -1,0 +1,39 @@
+<h1>Listing products</h1>
+
+<%# Cache for products is based around the ids and max(updated_at) returned by Product.all.
+    If none have changed, the entire set can be rendered from fragment cache. %>
+<% cache @products do %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Rendered at</th>
+        <th>Updated at</th>
+        <th colspan="4"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @products.each do |product| %>
+        <%# This cache key is based on the individual product.id and updated_at. If either of those
+            have changed, the inner TR must be re-rendered. %>
+        <% cache product do %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= Time.zone.now.strftime("%I:%M:%S") %></td>
+            <td><%= product.updated_at.strftime("%I:%M:%S") %></td>
+            <td><%= link_to 'Show', product %></td>
+            <td><%= button_to "Touch", product_touch_path(product), method: :put %></td>
+            <td><%= link_to 'Edit', edit_product_path(product) %></td>
+            <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
+
