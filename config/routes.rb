@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   resources :products do
-    put :touch
+    member do
+      put :touch
+    end
+
+    collection do
+      post :break_cache
+    end
   end
 
   root 'products#index'

@@ -1,6 +1,9 @@
 <% start_time = Time.now %>
 <h1>Listing products</h1>
 <h2 id="renderTime"></h2>
+<%= button_to "Break cache", break_cache_products_path, method: :post, data: {disable_with: "Breaking..."} %>
+
+<%= link_to 'New Product', new_product_path %>
 
 <%# Cache for products is based around the ids and max(updated_at) returned by Product.all.
     If none have changed, the entire set can be rendered from fragment cache. %>
@@ -26,9 +29,9 @@
             <td><%= Time.now.strftime("%I:%M:%S:%L") %></td>
             <td><%= product.updated_at.in_time_zone("EST").strftime("%I:%M:%S:%L") %></td>
             <td><%= link_to 'Show', product %></td>
-            <td><%= button_to "Touch", product_touch_path(product), method: :put %></td>
             <td><%= link_to 'Edit', edit_product_path(product) %></td>
             <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= button_to "Touch", touch_product_path(product), method: :put, data: {disable_with: "Touching..."} %></td>
           </tr>
         <% end %>
       <% end %>
@@ -37,8 +40,6 @@
 <% end %>
 
 <br>
-
-<%= link_to 'New Product', new_product_path %>
 <% end_time = Time.now %>
 
 <script>

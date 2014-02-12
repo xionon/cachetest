@@ -14,9 +14,14 @@ class ProductsController < ApplicationController
     fresh_when @product, public: false
   end
 
+  def break_cache
+    Product.update_all(:updated_at => Time.now)
+    redirect_to products_path
+  end
+
   # Just a way to show what happens when you change the updated_at on an item
   def touch
-    @product = Product.find(params[:product_id])
+    @product = Product.find(params[:id])
     @product.touch
 
     redirect_to products_path
