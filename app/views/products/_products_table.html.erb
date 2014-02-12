@@ -12,7 +12,9 @@
     </thead>
 
     <tbody>
-      <%= render @products %>
+      <% @products.each do |product| %>
+        <%= render 'product_table_row', product: product %>
+      <% end %>
     </tbody>
   </table>
 <% end %>
