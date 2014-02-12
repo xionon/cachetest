@@ -1,9 +1,9 @@
 <% start_time = Time.now %>
 <h1>Listing products</h1>
 <h2 id="renderTime"></h2>
-<%= button_to "Break cache", break_cache_products_path, method: :post, data: {disable_with: "Breaking..."} %>
 
-<%= link_to 'New Product', new_product_path %>
+<%= button_to "Break cache", break_cache_products_path, method: :post, class: "button alert", data: {disable_with: "Breaking..."} %>
+<%= link_to 'New Product', new_product_path, class: "button secondary" %>
 
 <%# Cache for products is based around the ids and max(updated_at) returned by Product.all.
     If none have changed, the entire set can be rendered from fragment cache. %>
