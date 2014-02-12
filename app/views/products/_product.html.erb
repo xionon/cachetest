@@ -1,0 +1,14 @@
+<%# This cache key is based on the individual product.id and updated_at. If either of those
+    have changed, the inner TR must be re-rendered. %>
+<% cache product do %>
+  <tr>
+    <td><%= product.name %></td>
+
+    <td><%= Time.now.strftime("%I:%M:%S:%L") %></td>
+    <td><%= product.updated_at.in_time_zone("EST").strftime("%I:%M:%S:%L") %></td>
+    <td><%= link_to 'Show', product %></td>
+    <td><%= link_to 'Edit', edit_product_path(product) %></td>
+    <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= button_to "Touch", touch_product_path(product), method: :put, data: {disable_with: "Touching..."} %></td>
+  </tr>
+<% end %>

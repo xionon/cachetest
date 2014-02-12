@@ -1,0 +1,18 @@
+<%# Cache for products is based around the ids and max(updated_at) returned by Product.all.
+    If none have changed, the entire set can be rendered from fragment cache. %>
+<% cache @products do %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Rendered at</th>
+        <th>Updated at</th>
+        <th colspan="4"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= render @products %>
+    </tbody>
+  </table>
+<% end %>

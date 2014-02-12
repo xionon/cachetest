@@ -2,42 +2,10 @@
 <h1>Listing products</h1>
 <h2 id="renderTime"></h2>
 
-<%= button_to "Break cache", break_cache_products_path, method: :post, class: "button alert", data: {disable_with: "Breaking..."} %>
+<%= button_to "Break products cache", break_cache_products_path, method: :post, class: "button alert", data: {disable_with: "Breaking..."} %>
 <%= link_to 'New Product', new_product_path, class: "button secondary" %>
 
-<%# Cache for products is based around the ids and max(updated_at) returned by Product.all.
-    If none have changed, the entire set can be rendered from fragment cache. %>
-<% cache @products do %>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Rendered at</th>
-        <th>Updated at</th>
-        <th colspan="4"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @products.each do |product| %>
-        <%# This cache key is based on the individual product.id and updated_at. If either of those
-            have changed, the inner TR must be re-rendered. %>
-        <% cache product do %>
-          <tr>
-            <td><%= product.name %></td>
-
-            <td><%= Time.now.strftime("%I:%M:%S:%L") %></td>
-            <td><%= product.updated_at.in_time_zone("EST").strftime("%I:%M:%S:%L") %></td>
-            <td><%= link_to 'Show', product %></td>
-            <td><%= link_to 'Edit', edit_product_path(product) %></td>
-            <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            <td><%= button_to "Touch", touch_product_path(product), method: :put, data: {disable_with: "Touching..."} %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+<%= render 'products_table' %>
 
 <br>
 <% end_time = Time.now %>
