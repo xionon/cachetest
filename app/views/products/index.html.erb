@@ -1,4 +1,6 @@
+<% start_time = Time.now %>
 <h1>Listing products</h1>
+<h2 id="renderTime"></h2>
 
 <%# Cache for products is based around the ids and max(updated_at) returned by Product.all.
     If none have changed, the entire set can be rendered from fragment cache. %>
@@ -20,8 +22,9 @@
         <% cache product do %>
           <tr>
             <td><%= product.name %></td>
-            <td><%= Time.zone.now.strftime("%I:%M:%S") %></td>
-            <td><%= product.updated_at.strftime("%I:%M:%S") %></td>
+
+            <td><%= Time.now.strftime("%I:%M:%S:%L") %></td>
+            <td><%= product.updated_at.in_time_zone("EST").strftime("%I:%M:%S:%L") %></td>
             <td><%= link_to 'Show', product %></td>
             <td><%= button_to "Touch", product_touch_path(product), method: :put %></td>
             <td><%= link_to 'Edit', edit_product_path(product) %></td>
@@ -36,4 +39,9 @@
 <br>
 
 <%= link_to 'New Product', new_product_path %>
+<% end_time = Time.now %>
+
+<script>
+document.getElementById("renderTime").innerHTML = "Total render time: <%= end_time - start_time %>"
+</script>
 
